@@ -1,0 +1,43 @@
+\documentclass[12pt]{article}
+
+\usepackage{graphicx}
+\usepackage{geometry}
+
+\geometry{a4paper,
+    left=10mm,
+    right=10mm,
+    top=20mm,
+    bottom=20mm,
+}
+
+\begin{document}
+
+\title{Electricity schematics}
+\author{Your name}
+\date{\parbox{\linewidth}{
+	\vspace*{15cm}
+	\today\endgraf\bigskip\bigskip
+    Address: \endgraf
+    Owner name(s) \endgraf
+    street number \endgraf
+    postal code - city \endgraf
+    email@example.com \endgraf\bigskip\bigskip
+    Installation: \endgraf
+    Your name}}
+
+\maketitle
+
+\begin{figure}
+    \centering
+    \resizebox{0.7\textwidth}{!}{\input{singlewire.pdf_tex}}
+    \caption{Single Wire diagram}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \input{floor.pdf_tex}
+    \caption{Situation - floor}
+\end{figure}
+
+\end{document}
+
