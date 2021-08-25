@@ -15,8 +15,8 @@
  * @param position Position in the plan: [x,y] coordinates [optional]
  * @param rotation Rotation of the element in degrees [optional]
  */
-module wall(length, position, rotation) {
-    translate(v=position) rotate(rotation) square(size=[length,1]);
+module wall(length, position=[0,0], rotation=0) {
+    translate(v=position) rotate([0,0,rotation]) square(size=[length,1]);
 }
 
 
@@ -26,9 +26,9 @@ module wall(length, position, rotation) {
  * @param position Position in the plan: [x,y] coordinates [optional]
  * @param rotation Rotation of the element in degrees [optional]
  */
-module door(width, position, rotation) {
+module door(width, position, rotation=0) {
     thickness = 6;
-    translate(v=position) rotate(rotation) translate(v=[0,-thickness/2]) square(size=[width,thickness]);
+    translate(v=position) rotate([0,0,rotation]) translate(v=[0,-thickness/2]) square(size=[width,thickness]);
 }
 
 /** Basic element for a staircase
@@ -58,9 +58,9 @@ module staircase(width, length, position, rotation) {
  * @param position Position in the plan: [x,y] coordinates [optional]
  * @param rotation Rotation of the element in degrees [optional]
  */
-module bath(width, length, position, rotation) {
+module bath(width, length, position=[0,0], rotation=0) {
 	dimensions = [width, length];
-    translate(v=position) rotate(rotation) union() {
+    translate(v=position) rotate([0,0,rotation]) union() {
         difference() {
             square(size=dimensions);
             translate(v=[1,1]) square(size=dimensions - [2,2]);

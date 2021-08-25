@@ -18,7 +18,7 @@ t_switch = [-6,0]; //extra translation for switches to start in the same locatio
  * @address2 Address line 2 of the house
  * @param position Position in the schema: [x,y] coordinates [optional]
  */
-module header(name, address1, address2, position) {
+module header(name, address1, address2, position=[0,0]) {
     translate(v=position) union() {
         text(name);
         translate(v=[0,-20]) text(address1);
@@ -54,7 +54,7 @@ module arei_square(r) {
  * @param position Position in the schema: [x,y] coordinates [optional]
  * @param indicator Boolean flag for indicator light on the switch [optional]
  */
-module switch_simple(name, position, indicator) {
+module switch_simple(name, position=[0,0], indicator=false) {
     translate(v=position+t_switch) union() {
         arei_circle(5);
         translate(v=[3,3]) rotate(45) square(size=[10,1]);
@@ -72,9 +72,9 @@ module switch_simple(name, position, indicator) {
  * @param position Position in the schema: [x,y] coordinates [optional]
  * @param indicator Boolean flag for indicator light on the switch [optional]
  */
-module switch_singlepole(name, position, indicator) {
+module switch_singlepole(name, position=[0,0], indicator=false) {
     translate(v=position+t_switch) union() {
-        switch_simple(name, undef, indicator);
+        switch_simple(name, -t_switch, indicator);
         translate(v=[9,10]) rotate(-45) square(size=[5,1]);
     }
 }
@@ -84,7 +84,7 @@ module switch_singlepole(name, position, indicator) {
  * @param name Name of the element in the netlist
  * @param position Position in the schema: [x,y] coordinates [optional]
  */
-module pushbutton(name, position) {
+module pushbutton(name, position=[0,0]) {
     translate(v=position+[-4,0]) union() {
         arei_circle(5);
         arei_circle(1);
@@ -98,9 +98,9 @@ module pushbutton(name, position) {
  * @param position Position in the schema: [x,y] coordinates [optional]
  * @param indicator Boolean flag for indicator light on the switch [optional]
  */
-module switch_doublepole(name, position, indicator) {
+module switch_doublepole(name, position=[0,0], indicator=false) {
     translate(v=position+t_switch) union() {
-        switch_singlepole(name, undef, indicator);
+        switch_singlepole(name, -t_switch, indicator);
         translate(v=[7,8]) rotate(-45) square(size=[5,1]);
     }
 }
@@ -111,9 +111,9 @@ module switch_doublepole(name, position, indicator) {
  * @param position Position in the schema: [x,y] coordinates [optional]
  * @param indicator Boolean flag for indicator light on the switch [optional]
  */
-module switch_three_way(name, position, indicator) {
+module switch_three_way(name, position=[0,0], indicator) {
     translate(v=position+t_switch) union() {
-        switch_singlepole(name, undef, indicator);
+        switch_singlepole(name, -t_switch, indicator);
         translate(v=[-10,-10]) rotate(45) square(size=[10,1]);
         translate(v=[-14,-7]) rotate(-45) square(size=[5,1]);
     }
@@ -125,9 +125,9 @@ module switch_three_way(name, position, indicator) {
  * @param position Position in the schema: [x,y] coordinates [optional]
  * @param indicator Boolean flag for indicator light on the switch [optional]
  */
-module switch_four_way(name, position, indicator) {
+module switch_four_way(name, position=[0,0], indicator) {
     translate(v=position+t_switch) union() {
-        switch_three_way(name, undef, indicator);
+        switch_three_way(name, -t_switch, indicator);
         translate(v=[-3,3]) rotate(135) square(size=[10,1]);
         translate(v=[-10,10]) rotate(-135) square(size=[5,1]);
         translate(v=[3,-3]) rotate(-45) square(size=[10,1]);
@@ -152,7 +152,7 @@ module circle_half(radius) {
  * @param name Name of the element in the netlist
  * @param position Position in the schema: [x,y] coordinates [optional]
  */
-module boiler(name, position) {
+module boiler(name, position=[0,0]) {
     translate(v=position) union() {
         arei_circle(10);
         translate(v=[-6,-8]) square(size=[1,16]);
@@ -165,13 +165,13 @@ module boiler(name, position) {
 /** Socket symbol
  *
  * @param name Name of the element in the netlist
- * @param amount Amount of sockets in this place
+ * @param amount Amount of sockets in this place [optional]
  * @param position Position in the schema: [x,y] coordinates [optional]
  * @param rotation Rotation of the element 0, 90, 180 or 270 degrees [optional]
  */
-module socket(name, amount, position, rotation) {
+module socket(name, amount=1, position=[0,0], rotation=0) {
     translate(v=position) union() {
-        rotate(rotation) union() {
+        rotate([0,0,rotation]) union() {
             difference() {
                 circle_half(9);
                 circle_half(8);
@@ -185,7 +185,7 @@ module socket(name, amount, position, rotation) {
             translate(v=[-12,0]) square(size=[3,1]);
             if (amount !=1) {
                 translate(v=[-5,-12]) rotate(60) square(size=[8,1]);
-                translate(v=[-11,-16]) rotate(-rotation) text(str(amount), size=6, vallign="center", hallign="center");
+                translate(v=[-11,-16]) rotate([0,0,-rotation]) text(str(amount), size=6, valign="center", halign="center");
             }
         }
         if ((rotation == 0) || (rotation == undef)) {
@@ -207,7 +207,7 @@ module socket(name, amount, position, rotation) {
  *
  * @param position Position in the schema: [x,y] coordinates [optional]
  */
-module television(position) {
+module television(position=[0,0]) {
     translate(v=position) text("TV");
 }
 
@@ -215,7 +215,7 @@ module television(position) {
  *
  * @param position Position in the schema: [x,y] coordinates [optional]
  */
-module internet(position) {
+module internet(position=[0,0]) {
     translate(v=position) text("INT");
 }
 
@@ -225,12 +225,12 @@ module internet(position) {
  * @param position Position in the schema: [x,y] coordinates [optional]
  * @param wallmount If wall mounten, the angle at which it is mounted to the wall: 0, 90, 180 or 270 degrees [optional]
  */
-module light(name, position, wallmount) {
+module light(name, position=[0,0], wallmount=false) {
     translate(v=position) translate(v=[0,1]) union() {
         translate(v=[-8,-9]) rotate(45) square(size=[24,1]);
         translate(v=[-9,8]) rotate(-45) square(size=[24,1]);
         translate(v=[-15,-16]) text(name);
-        if(wallmount != undef) {
+        if(wallmount != false) {
             rotate(wallmount) translate(v=[10,-11]) square(size=[1,22]);
         }
     }
@@ -242,9 +242,9 @@ module light(name, position, wallmount) {
  * @param position Position in the schema: [x,y] coordinates [optional]
  * @param rotation Rotation of the element 0 or 90 degrees [optional]
  */
-module lighttube(name, position, rotation) {
+module lighttube(name, position=[0,0], rotation=0) {
     translate(v=position+[29,0]) union() {
-        rotate(rotation) union() {
+        rotate([0,0,rotation]) union() {
             translate(v=[-30,0]) square(size=[60,1]);
             translate(v=[-30,-4]) square(size=[1,8]);
             translate(v=[30,-4]) square(size=[1,8]);
@@ -258,7 +258,7 @@ module lighttube(name, position, rotation) {
  * @param name Name of the element in the netlist
  * @param position Position in the schema: [x,y] coordinates [optional]
  */
-module bell(name, position) {
+module bell(name, position=[0,0]) {
     translate(v=position+[0,-6]) union() {
         arei_square(12);
         translate(v=[12,8]) polygon(points=[[0,0],[20,5], [16,-5], [0, -2]]);
@@ -272,8 +272,8 @@ module bell(name, position) {
  * @param position Position in the schema: [x,y] coordinates [optional]
  * @param rotation Rotation of the element in 90 degrees, default horizontal [optional]
  */
-module wire(length, position, rotation) {
-    translate(v=position) rotate(rotation) square(size=[length,1]);
+module wire(length, position=[0,0], rotation=0) {
+    translate(v=position) rotate([0,0,rotation]) square(size=[length,1]);
 }
 
 /** Transformator symbol
@@ -281,8 +281,8 @@ module wire(length, position, rotation) {
  * @param position Position in the schema: [x,y] coordinates [optional]
  * @param rotation Rotation of the element in degrees [optional]
  */
-module trafo(position, rotation) {
-    translate(v=position) rotate(rotation) union() {
+module trafo(position=[0,0], rotation=0) {
+    translate(v=position) rotate([0,0,rotation]) union() {
         translate(v=[-5,0]) arei_circle(5);
         translate(v=[1,0]) arei_circle(5);
     }
@@ -294,7 +294,7 @@ module trafo(position, rotation) {
  * @param position Position in the schema: [x,y] coordinates [optional]
  * @param residualcurrent The residual current at which the fuse breaks the circuit [optional]
  */
-module fuse(current, position, residualcurrent) {
+module fuse(current, position=[0,0], residualcurrent=false) {
     translate(v=position) union() {
         wire(4,[0,-3],90);
         rotate(30) union() {
@@ -305,7 +305,7 @@ module fuse(current, position, residualcurrent) {
         translate(v=[-4,5]) rotate(30) square(size=[3,1]);
         wire(4,[0,15],90);
         translate(v=[4,3]) text(current);
-        if (residualcurrent != undef) {
+        if (residualcurrent != false) {
             translate(v=[4,16]) text(residualcurrent);
         }
     }
@@ -339,7 +339,7 @@ module line_board(name, current, cable, connections) {
  * position should be the bottom of your power board.
  * @param position Position in the schema: [x,y] coordinates [optional]
  */
-module earthconnection(position) {
+module earthconnection(position=[0,0]) {
     translate(v=position) rotate(180) union() {
         wire(20, [0,0], 90);
 
@@ -364,7 +364,7 @@ module earthconnection(position) {
  * @param length The length of the board
  * @param position Position in the schema: [x,y] coordinates [optional]
  */
-module board(length, position) {
+module board(length, position=[0,0]) {
     h = 15;
     l = length + 2 * h;
     translate(v=position) translate(v=[-h,-h]) union() {
