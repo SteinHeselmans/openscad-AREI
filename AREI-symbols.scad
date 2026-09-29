@@ -242,12 +242,12 @@ module light(name, position=[0,0], wallmount=false) {
  * @param position Position in the schema: [x,y] coordinates [optional]
  * @param rotation Rotation of the element 0 or 90 degrees [optional]
  */
-module lighttube(name, position=[0,0], rotation=0) {
+module lighttube(name, position=[0,0], rotation=0, length=60) {
     translate(v=position+[29,0]) union() {
         rotate([0,0,rotation]) union() {
-            translate(v=[-30,0]) square(size=[60,1]);
-            translate(v=[-30,-4]) square(size=[1,8]);
-            translate(v=[30,-4]) square(size=[1,8]);
+            translate(v=[-length/2,0]) square(size=[length,1]);
+            translate(v=[length/2,-4]) square(size=[1,8]);
+            translate(v=[-length/2,-4]) square(size=[1,8]);
         }
         translate(v=[2,2]) text(name);
     }
