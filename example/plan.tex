@@ -1,6 +1,7 @@
 \documentclass[12pt]{article}
 
 \usepackage{graphicx}
+\usepackage{svg}
 \usepackage{geometry}
 
 \geometry{a4paper,
@@ -29,13 +30,13 @@
 
 \begin{figure}
     \centering
-    \resizebox{0.7\textwidth}{!}{\input{singlewire.pdf_tex}}
+    \includesvg[scale=0.3]{singlewire.svg}
     \caption{Single Wire diagram}
 \end{figure}
 
 \begin{figure}
     \centering
-    \input{floor.pdf_tex}
+    \includesvg[scale=0.2]{floor.svg}
     \caption{Situation - floor}
 \end{figure}
 
